@@ -4,21 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Controle de Folga</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-dM8tljyI2RUa3YzpyY3gSjq7oZb6ZjN0VviAF0WhYOCdZikUgiO8e3TD9ibKNElV7WhvRvhHGlWn6V7XEVpEXw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: 'Inter', sans-serif;
       background: linear-gradient(135deg, #10b981, #3b82f6);
       padding: 1.5rem;
     }
-
     .container {
       max-width: 960px;
       margin: auto;
@@ -27,22 +20,18 @@
       padding: 2rem;
       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
     }
-
     h2 {
-      color:bla;
       text-align: center;
       font-size: 2rem;
       font-weight: 700;
       margin-bottom: 2rem;
     }
-
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
       gap: 1rem;
       margin-bottom: 2rem;
     }
-
     .stat-card {
       background: #f9fafb;
       border: 1px solid #e5e7eb;
@@ -51,32 +40,27 @@
       text-align: center;
       box-shadow: 0 4px 8px rgba(0,0,0,0.04);
     }
-
     .stat-icon {
       font-size: 1.75rem;
       margin-bottom: 0.5rem;
     }
-
     .calendar-container {
-      background: #ffffff;
+      background: #fff;
       border-radius: 1rem;
       padding: 1rem;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
     }
-
     .calendar-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 1rem;
     }
-
     .calendar-grid {
       display: grid;
       grid-template-columns: repeat(7, 1fr);
       gap: 0.5rem;
     }
-
     .day-btn {
       aspect-ratio: 1 / 1;
       background: #f3f4f6;
@@ -84,82 +68,82 @@
       border-radius: 0.75rem;
       font-weight: bold;
       cursor: pointer;
-      transition: transform 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-
-    .day-btn:hover {
-      transform: scale(1.05);
+    .day-btn.work-day { background: #10b981; color: white; }
+    .day-btn.rest-day { background: #3b82f6; color: white; }
+    .day-btn.highlight { border: 2px solid gold !important; }
+    .legend {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-top: 1rem;
+      flex-wrap: wrap;
     }
-
-    .day-btn.work-day {
-      background: #10b981;
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+    }
+    .legend-item .day-btn {
+      width: 30px;
+      height: 30px;
+      pointer-events: none;
+    }
+    .footer {
+      background: white;
+      border-radius: 1rem;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      padding: 1rem;
+      text-align: center;
+      margin-top: 4rem;
+    }
+    .pix-btn {
+      background: #16a34a;
       color: white;
+      border: none;
+      border-radius: 999px;
+      padding: 1rem 2rem;
+      font-size: 2rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
     }
-
-    .day-btn.rest-day {
-      background: #3b82f6;
-      color: white;
-    }
-
+    .pix-btn:hover { background: #15803d; transform: scale(1.05); }
     .modal-overlay {
       position: fixed;
       inset: 0;
       background: rgba(0, 0, 0, 0.5);
-      backdrop-filter: blur(5px);
       display: none;
       align-items: center;
       justify-content: center;
-      z-index: 50;
+      z-index: 1000;
     }
-
-    .modal-overlay.active {
-      display: flex;
-    }
-
+    .modal-overlay.active { display: flex; }
     .modal-content {
       background: white;
-      padding: 2rem;
       border-radius: 1rem;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
       width: 90%;
       max-width: 400px;
+      padding: 2rem;
       text-align: center;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     }
-
-    .modal-actions {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
+    .modal-content button {
       margin-top: 1rem;
-    }
-
-    .modal-btn {
-      padding: 1rem;
-      border: none;
-      border-radius: 0.5rem;
-      font-weight: bold;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
+      padding: 0.75rem 1rem;
       font-size: 1rem;
+      border-radius: 0.5rem;
+      border: none;
+      cursor: pointer;
+      width: 100%;
     }
-
-    .modal-btn.work {
-      background: #ecfdf5;
-      color: #065f46;
-    }
-
-    .modal-btn.rest {
-      background: #eff6ff;
-      color: #1d4ed8;
-    }
-
-    .modal-btn.remove {
-      background: #f3f4f6;
-      color: #374151;
-    }
+    .modal-btn.work { background: #ecfdf5; color: #065f46; }
+    .modal-btn.rest { background: #eff6ff; color: #1d4ed8; }
+    .modal-btn.remove { background: #f3f4f6; color: #374151; }
   </style>
 </head>
 <body>
@@ -167,29 +151,10 @@
     <h2>Controle de Folga</h2>
 
     <div class="stats-grid">
-      <div class="stat-card">
-        <div class="stat-icon" style="color: #065f46;">
-          <i class="fas fa-briefcase"></i>
-        </div>
-        <div>Dias Trabalhados</div>
-        <div id="work-days-count">0</div>
-      </div>
-
-      <div class="stat-card">
-        <div class="stat-icon" style="color: #1d4ed8;">
-          <i class="fas fa-coffee"></i>
-        </div>
-        <div>Folgas Usadas</div>
-        <div id="rest-days-used">0</div>
-      </div>
-
-      <div class="stat-card">
-        <div class="stat-icon" style="color: #b45309;">
-          <i class="fas fa-award"></i>
-        </div>
-        <div>Folgas Disponíveis</div>
-        <div id="rest-days-available">0</div>
-      </div>
+      <div class="stat-card"><div class="stat-icon"><i class="fas fa-briefcase"></i></div><div>Dias Trabalhados</div><div id="work-days-count">0</div></div>
+      <div class="stat-card"><div class="stat-icon"><i class="fas fa-coffee"></i></div><div>Folgas Usadas</div><div id="rest-days-used">0</div></div>
+      <div class="stat-card"><div class="stat-icon"><i class="fas fa-award"></i></div><div>Folgas Disponíveis</div><div id="rest-days-available">0</div></div>
+      <div class="stat-card"><div class="stat-icon"><i class="fas fa-balance-scale"></i></div><div>Saldo Dia</div><div id="saldo-dia">0</div></div>
     </div>
 
     <div class="calendar-container">
@@ -200,56 +165,55 @@
       </div>
       <div class="calendar-grid" id="calendar-days-grid"></div>
     </div>
+
+    <div class="legend">
+      <div class="legend-item"><div class="day-btn work-day"></div><span>Dia Trabalhado</span></div>
+      <div class="legend-item"><div class="day-btn rest-day"></div><span>Folga Usada</span></div>
+      <div class="legend-item"><div class="day-btn" style="border: 2px solid gold;background-color:#10b981;"></div><span>Saldo</span></div>
+    </div>
   </main>
 
-  <div class="modal-overlay" id="day-modal">
+  <footer class="footer">
+    <h2>Sistema criado por Paulo Renato</h2>
+    <p>Ajude a aprimorar e desenvolver mais apps como este, qualquer valor será muito bem-vindo!</p>
+    <button id="pixBtn" class="pix-btn">Copiar chave PIX</button>
+  </footer>
+
+  <div id="modalDay" class="modal-overlay">
     <div class="modal-content">
-      <h3 id="modal-title">Selecionar Dia</h3>
-      <p>Escolha o tipo:</p>
-      <div class="modal-actions">
-        <button class="modal-btn work" id="work-btn">
-          <i class="fas fa-briefcase"></i> Dia de Trabalho
-        </button>
-        <button class="modal-btn rest" id="rest-btn">
-          <i class="fas fa-coffee"></i> Dia de Folga
-        </button>
-        <button class="modal-btn remove" id="remove-btn">
-          <i class="fas fa-times"></i> Remover Marcação
-        </button>
-      </div>
+      <h3>Selecionar tipo do dia</h3>
+      <button class="modal-btn work" onclick="saveDay('work')">Dia de Trabalho</button>
+      <button class="modal-btn rest" onclick="saveDay('rest')">Dia de Folga</button>
+      <button class="modal-btn remove" onclick="saveDay(null)">Remover Marcação</button>
     </div>
   </div>
-    <script>
+
+  <script>
     const calendarGrid = document.getElementById('calendar-days-grid');
     const monthLabel = document.getElementById('month-year-label');
-    const modal = document.getElementById('day-modal');
-    const modalTitle = document.getElementById('modal-title');
-    const workBtn = document.getElementById('work-btn');
-    const restBtn = document.getElementById('rest-btn');
-    const removeBtn = document.getElementById('remove-btn');
     const prevBtn = document.getElementById('prev-month-btn');
     const nextBtn = document.getElementById('next-month-btn');
-
-    const workDaysCount = document.getElementById('work-days-count');
-    const restDaysUsed = document.getElementById('rest-days-used');
-    const restDaysAvailable = document.getElementById('rest-days-available');
-
-    const MONTHS = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
-                    "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
-    
+    const modal = document.getElementById('modalDay');
+    const saldoDia = document.getElementById('saldo-dia');
     let currentDate = new Date();
     let selectedDay = null;
     let data = JSON.parse(localStorage.getItem("workDaysData") || "[]");
 
-    function openModal(day) {
-      selectedDay = day;
-      modalTitle.textContent = `Dia ${day.getDate()} de ${MONTHS[day.getMonth()]}`;
-      modal.classList.add("active");
+    function openModal(date) {
+      selectedDay = date;
+      modal.classList.add('active');
+    }
+    function closeModal() {
+      modal.classList.remove('active');
     }
 
-    function closeModal() {
-      modal.classList.remove("active");
-      selectedDay = null;
+    function saveDay(type) {
+      const dateStr = selectedDay.toISOString().split("T")[0];
+      data = data.filter(d => d.date !== dateStr);
+      if (type) data.push({ date: dateStr, type });
+      localStorage.setItem("workDaysData", JSON.stringify(data));
+      closeModal();
+      renderCalendar();
     }
 
     function updateStats() {
@@ -257,11 +221,50 @@
       const rest = data.filter(d => d.type === "rest").length;
       const earned = Math.floor(work / 6);
       const available = earned - rest;
+      const totalFolgas = rest + Math.max(0, available);
+      const saldo = work - (totalFolgas * 6);
 
-      workDaysCount.textContent = work;
-      restDaysUsed.textContent = rest;
-      restDaysAvailable.textContent = Math.max(0, available);
+      document.getElementById('work-days-count').textContent = work;
+      document.getElementById('rest-days-used').textContent = rest;
+      document.getElementById('rest-days-available').textContent = Math.max(0, available);
+      saldoDia.textContent = saldo;
+      return { saldo, work };
     }
+
+    function highlightDias() {
+  const { saldo } = updateStats();
+  const buttons = [...calendarGrid.querySelectorAll(".day-btn")];
+  buttons.forEach(b => b.classList.remove("highlight"));
+
+  if (saldo <= 0) return;
+
+  // Obter todos os dias de trabalho, ordenar do mais recente para o mais antigo
+  const allWorkDays = data
+    .filter(d => d.type === "work")
+    .map(d => new Date(d.date))
+    .sort((a, b) => b - a);
+
+  const highlightDates = [];
+  // Pegar os 'saldo' últimos dias trabalhados
+  for (let i = 0; i < saldo && i < allWorkDays.length; i++) {
+    highlightDates.push(allWorkDays[i].toISOString().split("T")[0]);
+  }
+
+  const year = currentDate.getFullYear();
+  const month = currentDate.getMonth();
+
+  // Marcar apenas os botões do mês atual (visíveis) com destaque, se estiverem na lista de highlightDates
+  buttons.forEach(b => {
+    const day = parseInt(b.textContent);
+    // Verificar se o dia é válido (pode haver divs vazias para preencher o grid)
+    if (!isNaN(day)) {
+      const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+      if (highlightDates.includes(dateStr)) {
+        b.classList.add("highlight");
+      }
+    }
+  });
+}
 
     function renderCalendar() {
       calendarGrid.innerHTML = "";
@@ -269,13 +272,9 @@
       const month = currentDate.getMonth();
       const daysInMonth = new Date(year, month + 1, 0).getDate();
       const firstDay = new Date(year, month, 1).getDay();
-
+      const MONTHS = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
       monthLabel.textContent = `${MONTHS[month]} ${year}`;
-
-      for (let i = 0; i < firstDay; i++) {
-        calendarGrid.innerHTML += `<div></div>`;
-      }
-
+      for (let i = 0; i < firstDay; i++) calendarGrid.innerHTML += `<div></div>`;
       for (let d = 1; d <= daysInMonth; d++) {
         const date = new Date(year, month, d);
         const dateStr = date.toISOString().split("T")[0];
@@ -287,35 +286,15 @@
         btn.onclick = () => openModal(date);
         calendarGrid.appendChild(btn);
       }
-
-      updateStats();
+      highlightDias();
     }
 
-    function save(type) {
-      if (!selectedDay) return;
-      const dateStr = selectedDay.toISOString().split("T")[0];
-      data = data.filter(d => d.date !== dateStr);
-      if (type) data.push({ date: dateStr, type });
-      localStorage.setItem("workDaysData", JSON.stringify(data));
-      closeModal();
-      renderCalendar();
+    prevBtn.onclick = () => { currentDate.setMonth(currentDate.getMonth() - 1); renderCalendar(); }
+    nextBtn.onclick = () => { currentDate.setMonth(currentDate.getMonth() + 1); renderCalendar(); }
+    window.onclick = e => { if (e.target === modal) closeModal(); }
+    document.getElementById('pixBtn').onclick = () => {
+      navigator.clipboard.writeText("49d0c7a5-d9e8-460d-b68c-bafd981bb69a").then(() => alert("Chave PIX copiada com sucesso!"));
     }
-
-    workBtn.onclick = () => save("work");
-    restBtn.onclick = () => save("rest");
-    removeBtn.onclick = () => save(null);
-    modal.onclick = e => { if (e.target === modal) closeModal(); };
-
-    prevBtn.onclick = () => {
-      currentDate.setMonth(currentDate.getMonth() - 1);
-      renderCalendar();
-    };
-
-    nextBtn.onclick = () => {
-      currentDate.setMonth(currentDate.getMonth() + 1);
-      renderCalendar();
-    };
-
     renderCalendar();
   </script>
 </body>
