@@ -75,6 +75,8 @@
     }
     .day-btn.work-day { background: #10b981; color: white; }
     .day-btn.rest-day { background: #3b82f6; color: white; }
+  .day-btn.atestmed-day { background: red; color: white; }
+  .day-btn.ferias-day { background: #00ffff; color: blue; }
     .day-btn.highlight { border: 2px solid gold !important; }
     .legend {
       display: flex;
@@ -142,8 +144,10 @@
       cursor: pointer;
       width: 100%;
     }
-    .modal-btn.work { background: #ecfdf5; color: #065f46; }
-    .modal-btn.rest { background: #eff6ff; color: #1d4ed8; }
+    .modal-btn.work { background: #10b981; color: white; }
+    .modal-btn.rest { background: #3b82f6; color: white; }
+  .modal-btn.atestmed { background: red; color: white; }
+  .modal-btn.ferias { background: #00ffff; color: blue; }
     .modal-btn.remove { background: #f3f4f6; color: #374151; }
   </style>
 </head>
@@ -170,6 +174,8 @@
     <div class="legend">
       <div class="legend-item"><div class="day-btn work-day"></div><span>Dia Trabalhado</span></div>
       <div class="legend-item"><div class="day-btn rest-day"></div><span>Folga Usada</span></div>
+      <div class="legend-item"><div class="day-btn atestmed-day"></div><span>Atestado Médico</span></div>
+      <div class="legend-item"><div class="day-btn ferias-day"></div><span>Férias</span></div>
       <div class="legend-item"><div class="day-btn" style="border: 2px solid gold;background-color:#10b981;"></div><span>Saldo</span></div>
     </div>
   </main>
@@ -185,6 +191,9 @@
       <h3>Selecionar tipo do dia</h3>
       <button class="modal-btn work" onclick="saveDay('work')">Dia de Trabalho</button>
       <button class="modal-btn rest" onclick="saveDay('rest')">Dia de Folga</button>
+      <button class="modal-btn atestmed"
+        onclick="saveDay('atestmed')">Atestado Médico</button>
+      <button class="modal-btn ferias" onclick="saveDay('ferias')">Férias</button>
       <button class="modal-btn remove" onclick="saveDay(null)">Remover Marcação</button>
     </div>
   </div>
@@ -283,7 +292,12 @@
         const btn = document.createElement("button");
         btn.classList.add("day-btn");
         btn.textContent = d;
-        if (entry) btn.classList.add(entry.type === "work" ? "work-day" : "rest-day");
+        if (entry) {
+  if (entry.type === "work") btn.classList.add("work-day");
+  else if (entry.type === "rest") btn.classList.add("rest-day");
+  else if (entry.type === "atestmed") btn.classList.add("atestmed-day");
+  else if (entry.type === "ferias") btn.classList.add("ferias-day");
+}
         btn.onclick = () => openModal(date);
         calendarGrid.appendChild(btn);
       }
